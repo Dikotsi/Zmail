@@ -1,0 +1,157 @@
+// @dart=2.9
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+var indexClicked = 0;
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MainPage(),
+    );
+  }
+}
+
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+//Work with this class
+class _MainPageState extends State<MainPage> {
+  final pages = [
+    Center(
+      child: Text(
+        "Inbox",
+        style: TextStyle(fontSize: 40),
+      ),
+    ),
+    Center(
+      child: Text(
+        "Outbox",
+        style: TextStyle(fontSize: 40),
+      ),
+    ),
+    Center(
+      child: Text(
+        "Sent",
+        style: TextStyle(fontSize: 40),
+      ),
+    ),
+    Center(
+      child: Text(
+        "Drafts",
+        style: TextStyle(fontSize: 40),
+      ),
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Zmail'),
+        backgroundColor: Colors.red,
+      ),
+      body: pages[indexClicked],
+      drawer: Drawer(
+        child: Column(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.red[100]),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'ZMail',
+                  style: TextStyle(fontSize: 30, color: Colors.red),
+                ),
+              ),
+            ),
+            //Body
+            Container(
+              child: Expanded(
+                child: ListView(
+                  children: [
+                    My_List_Tile(
+                      index: 0,
+                      text: "Inbox",
+                      tileIcon: Icons.mail_outline,
+                      onTap: () {
+                        setState(() {
+                          indexClicked = 0;
+                          Navigator.pop(context);
+                        });
+                      },
+                    ),
+                    My_List_Tile(
+                        index: 1,
+                        onTap: () {
+                          setState(() {
+                            indexClicked = 1;
+                            Navigator.pop(context);
+                          });
+                        },
+                        tileIcon: Icons.call_missed_outgoing,
+                        text: "Outbox"),
+                    My_List_Tile(
+                        index: 2,
+                        onTap: () {
+                          setState(() {
+                            indexClicked = 2;
+                            Navigator.pop(context);
+                          });
+                        },
+                        tileIcon: Icons.arrow_forward,
+                        text: "Sent"),
+                    My_List_Tile(
+                        index: 3,
+                        onTap: () {
+                          setState(() {
+                            indexClicked = 3;
+                            Navigator.pop(context);
+                          });
+                        },
+                        tileIcon: Icons.recycling_outlined,
+                        text: "Trash"),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class My_List_Tile extends StatelessWidget {
+  const My_List_Tile({
+    @required this.index,
+    @required this.onTap,
+    @required this.tileIcon,
+    @required this.text,
+  });
+
+  final int index;
+  final Function onTap;
+  final IconData tileIcon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      leading: Icon(
+        tileIcon,
+        size: 30,
+      ),
+      title: Text(
+        "$text",
+        style: TextStyle(fontSize: 30),
+      ),
+    );
+  }
+}
